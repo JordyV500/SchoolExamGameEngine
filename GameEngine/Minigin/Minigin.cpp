@@ -40,21 +40,21 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame() const
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	//auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
-	go->SetTexture("background.jpg");
-	scene.Add(go);
+	//auto go = std::make_shared<GameObject>();
+	//go->SetTexture("background.jpg");
+	//scene.Add(go);
 
-	go = std::make_shared<GameObject>();
-	go->SetTexture("logo.png");
-	go->SetPosition(216, 180);
-	scene.Add(go);
+	//go = std::make_shared<GameObject>();
+	//go->SetTexture("logo.png");
+	//go->SetPosition(216, 180);
+	//scene.Add(go);
 
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
-	to->SetPosition(80, 20);
-	scene.Add(to);
+	//auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	//auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
+	//to->SetPosition(80, 20);
+	//scene.Add(to);
 }
 
 void dae::Minigin::Cleanup()
@@ -80,18 +80,38 @@ void dae::Minigin::Run()
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
 
+		auto lastTime = std::chrono::high_resolution_clock::now();
+		float lag = 0.0f;
+
 		bool doContinue = true;
 		while (doContinue)
 		{
+			auto currentTime = std::chrono::high_resolution_clock::now();
+			float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+			lastTime = currentTime;
+			lag += deltaTime;
+
 			doContinue = input.ProcessInput();
 
-			sceneManager.Update();
-			renderer.Render();
+			while (lag >= msPerUpdate)
+			{
+				Update(deltaTime);
+				lag -= msPerUpdate;
+			}
+			Render(lag / msPerUpdate);
 
-			t += std::chrono::milliseconds(msPerFrame);
-			std::this_thread::sleep_until(t);
 		}
 	}
 
 	Cleanup();
+}
+
+void Update(float deltaTime)
+{
+
+}
+
+void Render(float offsetTime)
+{
+
 }
