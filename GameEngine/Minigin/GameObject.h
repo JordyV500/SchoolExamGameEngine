@@ -1,23 +1,28 @@
 #pragma once
 #include <memory>
-
+#include <map>
 #include "Transform.h"
 #include "Texture2D.h"
-#include "SceneObject.h"
+#include "Component.h"
+#include <typeindex>
 
 namespace dae
 {
-	class GameObject : public SceneObject
+	class GameObject
 	{
 	public:
-		void Update() override;
-		void Render() const override;
+		GameObject();
+		~GameObject();
+		void Update(float deltaTime);
+		void Render(float offsetTime) const;
 
 		void SetTexture(const std::string& filename);
 		void SetPosition(float x, float y);
+		void AddComponent(std::shared_ptr<Component> component);
+		template <typename T>
+		std::shared_ptr<T> getComponent();
 
-		GameObject() = default;
-		virtual ~GameObject();
+
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
@@ -26,5 +31,20 @@ namespace dae
 	private:
 		Transform mTransform;
 		std::shared_ptr<Texture2D> mTexture;
+		std::map<std::type_index, std::shared_ptr<Component>> m_Components;
 	};
+
+	template <typename T>
+	inline std::shared_ptr<T> GameObject::getComponent()
+	{
+		std::type_index index(typeid(T));
+		if (m_Components.count(std::type_index(typeid(T))) != 0)
+		{
+			return static_pointer_cast<T>(m_Components[index]);
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
 }

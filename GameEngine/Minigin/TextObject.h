@@ -1,5 +1,4 @@
 #pragma once
-#include "SceneObject.h"
 #include "Transform.h"
 
 namespace dae
@@ -7,11 +6,11 @@ namespace dae
 	class Font;
 	class Texture2D;
 
-	class TextObject : public SceneObject
+	class TextObject
 	{
 	public:
-		void Update() override;
-		void Render() const override;
+		void Update();
+		void Render() const;
 
 		void SetText(const std::string& text);
 		void SetPosition(float x, float y);
@@ -24,7 +23,6 @@ namespace dae
 		TextObject& operator=(const TextObject& other) = delete;
 		TextObject& operator=(TextObject&& other) = delete;
 	private:
-
 
 		bool mNeedsUpdate;
 		std::string mText;

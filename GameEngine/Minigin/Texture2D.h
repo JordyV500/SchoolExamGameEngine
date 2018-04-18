@@ -1,9 +1,10 @@
 #pragma once
+#include "Component.h"
 struct SDL_Texture;
 
 namespace dae
 {
-	class Texture2D
+	class Texture2D : public Component
 	{
 	public:
 		SDL_Texture* GetSDLTexture() const;

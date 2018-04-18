@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include "Texture2D.h"
 #include <SDL.h>
+#include "Component.h"
 
 dae::Texture2D::~Texture2D()
 {

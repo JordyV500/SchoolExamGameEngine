@@ -9,8 +9,8 @@ namespace dae
 	public:
 		Scene & CreateScene(const std::string& name);
 
-		void Update();
-		void Render();
+		void Update(float deltaTime);
+		void Render(float offsetTime);
 
 	private:
 		std::vector<std::shared_ptr<Scene>> mScenes;

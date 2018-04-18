@@ -1,5 +1,6 @@
 #pragma once
 #include "Singleton.h"
+#include "RenderBuffer.h"
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -13,13 +14,18 @@ namespace dae
 
 	public:
 		void Init(SDL_Window* window);
-		void Render();
+		void Render(float offsetTime);
 		void Destroy();
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
 
 		SDL_Renderer* GetSDLRenderer() const { return mRenderer; }
+	private:
+		void Swap();
+		RenderBuffer m_Buffers[2];
+		RenderBuffer *m_Current;
+		RenderBuffer *m_Next;
 	};
 }
 

@@ -76,11 +76,9 @@ void dae::Minigin::Run()
 
 	{
 		auto t = std::chrono::high_resolution_clock::now();
-		auto& renderer = Renderer::GetInstance();
-		auto& sceneManager = SceneManager::GetInstance();
-		auto& input = InputManager::GetInstance();
-
 		auto lastTime = std::chrono::high_resolution_clock::now();
+
+		auto& input = InputManager::GetInstance();
 		float lag = 0.0f;
 
 		bool doContinue = true;
@@ -106,12 +104,12 @@ void dae::Minigin::Run()
 	Cleanup();
 }
 
-void Update(float deltaTime)
+void dae::Minigin::Update(const float deltaTime)
 {
-
+	SceneManager::GetInstance().Update(deltaTime);
 }
 
-void Render(float offsetTime)
+void dae::Minigin::Render(const float offsetTime)
 {
-
+	Renderer::GetInstance().Render(offsetTime);
 }
