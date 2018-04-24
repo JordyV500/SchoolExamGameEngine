@@ -5,6 +5,8 @@
 #include "Texture2D.h"
 #include "Component.h"
 #include <typeindex>
+#include <SDL.h>
+#include "Font.h"
 
 namespace dae
 {
@@ -12,11 +14,13 @@ namespace dae
 	{
 	public:
 		GameObject();
+		GameObject(const std::string& text, std::shared_ptr<Font> font);
 		~GameObject();
 		void Update(float deltaTime);
 		void Render(float offsetTime) const;
 
 		void SetTexture(const std::string& filename);
+		void SetText(const std::string& text, SDL_Color& color);
 		void SetPosition(float x, float y);
 		void AddComponent(std::shared_ptr<Component> component);
 		template <typename T>
@@ -32,6 +36,11 @@ namespace dae
 		Transform mTransform;
 		std::shared_ptr<Texture2D> mTexture;
 		std::map<std::type_index, std::shared_ptr<Component>> m_Components;
+
+		bool mNeedsUpdate;
+		std::shared_ptr<Font> mFont;
+		std::string mText;
+		SDL_Color m_Color;
 	};
 
 	template <typename T>
